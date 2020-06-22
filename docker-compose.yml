@@ -1,0 +1,23 @@
+version: '2'
+services:
+  web:
+    build: .
+    command: node app.js
+    volumes:
+      - .:/usr/app/
+      - /usr/app/node_modules
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://postgres@postgres/demo
+  postgres:
+    image: postgres:9.6.2-alpine
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: demo
+volumes:
+  database-data:
